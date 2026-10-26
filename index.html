@@ -1,197 +1,1899 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QUEUESKI Study Reviewer</title>
-  <link rel="stylesheet" href="css/style.css">
-  <script src="js/script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#dceeff">
+    <title>QUEUESKI | System Study Guide</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="#overview">QUEUESKI <span>Study Reviewer</span></a>
-    <div class="top-actions">
-      <input id="searchInput" type="search" placeholder="Search this reviewer..." aria-label="Search reviewer">
-      <button id="themeToggle" class="button secondary" type="button">Dark mode</button>
+    <!-- ===================================== -->
+    <!--              TOP NAVIGATION           -->
+    <!-- ===================================== -->
+
+    <div class="reading-track" aria-hidden="true">
+        <div id="progressFill"></div>
     </div>
-  </header>
 
-  <div class="layout">
-    <aside class="sidebar">
-      <p class="nav-label">STUDY TOPICS</p>
-      <a href="#overview">System Overview</a>
-      <a href="#technology">Technologies</a>
-      <a href="#modules">Main Modules</a>
-      <a href="#files">Project Files</a>
-      <a href="#database">Database</a>
-      <a href="#workflows">Workflows</a>
-      <a href="#api">API Basics</a>
-      <a href="#concepts">Programming Concepts</a>
-    </aside>
+    <header class="topbar">
+        <button
+            class="icon-button menu-toggle"
+            id="menuToggle"
+            aria-label="Open navigation"
+            aria-expanded="false"
+            type="button"
+        >☰</button>
 
-    <main id="mainContent">
-      <section class="hero" id="overview">
-        <p class="eyebrow">QUICK STUDY GUIDE</p>
-        <h1>Understand QUEUESKI</h1>
-        <p>A concise reviewer of the student portal, its main features, and how its parts work together.</p>
-      </section>
+        <a class="brand" href="#home" aria-label="QUEUESKI home">
+            <span class="brand-mark">Q</span>
+            <span>
+                QUEUESKI
+                <small>SYSTEM STUDY GUIDE</small>
+            </span>
+        </a>
 
-      <section class="study-section" id="technology">
-        <h2>1. Technologies</h2>
-        <div class="card-grid">
-          <article class="card searchable">
-            <h3>HTML</h3><p>Structures the page: headings, forms, buttons, tables, and content.</p>
-          </article>
-          <article class="card searchable">
-            <h3>CSS</h3><p>Controls appearance, spacing, colors, layout, and responsive design.</p>
-          </article>
-          <article class="card searchable">
-            <h3>JavaScript</h3><p>Adds interaction, such as menus, search, theme switching, and page updates.</p>
-          </article>
-          <article class="card searchable">
-            <h3>PHP</h3><p>Runs server-side logic and handles requests from the website.</p>
-          </article>
-          <article class="card searchable">
-            <h3>MySQL</h3><p>Stores student details and request records in database tables.</p>
-          </article>
-        </div>
-      </section>
+        <div class="top-actions">
+            <button
+                class="icon-button"
+                id="themeToggle"
+                aria-label="Switch to dark mode"
+                title="Toggle theme"
+                type="button"
+            >🌙</button>
 
-      <section class="study-section" id="modules">
-        <h2>2. Main Modules</h2>
-        <div class="card-grid">
-          <article class="card searchable"><h3>Student Portal</h3><p>Lets students sign in, view their portal, and submit or track requests.</p></article>
-          <article class="card searchable"><h3>Accounting</h3><p>Provides the area for accounting-related requests and their processing status.</p></article>
-          <article class="card searchable"><h3>Registrar</h3><p>Handles registrar requests, including tracking whether documents are pending, in progress, or completed.</p></article>
-          <article class="card searchable"><h3>Admin Dashboard</h3><p>Gives authorized staff access to the relevant modules and request records.</p></article>
+            <button class="home-button" id="homeButton" type="button">
+                ⌂ <span>Home</span>
+            </button>
         </div>
-      </section>
+    </header>
 
-      <section class="study-section" id="files">
-        <h2>3. Project Files</h2>
-        <p>Separating files makes the project easier to maintain. Each file type has a specific responsibility.</p>
-        <div class="code-card searchable">
-          <div class="code-heading"><strong>Example folder structure</strong><button class="copy-button" type="button">Copy</button></div>
-          <pre><code>queueski/
-├── api/          # Server-side request handlers
-├── components/   # Reusable page components
-├── config/       # Database/configuration settings
-├── css/          # Stylesheets
-├── images/       # Images and icons
-├── js/           # JavaScript files
-├── pages/        # Website pages
-├── vendor/       # Installed libraries
-└── index.php     # Main entry point (if used)</code></pre>
-        </div>
-        <ul class="key-points">
-          <li><strong>HTML/PHP pages:</strong> page structure and server-rendered content.</li>
-          <li><strong>CSS files:</strong> visual design only.</li>
-          <li><strong>JavaScript files:</strong> browser-side interactions.</li>
-          <li><strong>API files:</strong> receive and process requests between the browser and server.</li>
-          <li><strong>Configuration files:</strong> shared settings, such as database connection details.</li>
-        </ul>
-      </section>
+    <div class="layout">
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-      <section class="study-section" id="database">
-        <h2>4. Database Basics</h2>
-        <p>A database stores information in tables. A table contains columns (fields) and rows (records).</p>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Table</th><th>Purpose</th><th>Example fields</th></tr></thead>
-            <tbody>
-              <tr class="searchable"><td><code>students</code></td><td>Stores student account information.</td><td>Student number, name, email</td></tr>
-              <tr class="searchable"><td><code>registrar_requests</code></td><td>Stores requests sent to the Registrar.</td><td>Request ID, student number, request type, status</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="note"><strong>Remember:</strong> a primary key uniquely identifies a record. A foreign key can connect a record to another table, such as linking a request to a student.</p>
-      </section>
+        <!-- ===================================== -->
+        <!--               SIDEBAR                -->
+        <!-- ===================================== -->
 
-      <section class="study-section" id="workflows">
-        <h2>5. How the Workflows Go</h2>
-        <article class="card searchable">
-          <h3>Student request</h3>
-          <ol>
-            <li>The student signs in.</li>
-            <li>The student submits a request.</li>
-            <li>The system saves the request in the database.</li>
-            <li>Staff review and update its status.</li>
-            <li>The student checks the updated status.</li>
-          </ol>
-        </article>
-        <article class="card searchable">
-          <h3>Request status</h3>
-          <ul>
-            <li><strong>Pending:</strong> waiting to be processed.</li>
-            <li><strong>In Progress:</strong> staff are working on it.</li>
-            <li><strong>Completed:</strong> processing is finished.</li>
-          </ul>
-        </article>
-        <article class="card searchable">
-          <h3>Email notification demo</h3>
-          <p>When a request is marked completed, the system can notify the student that the requested document is ready for claiming. A real email feature needs a configured mail service and valid recipient address; a demo message alone does not send an email.</p>
-        </article>
-      </section>
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-heading">STUDY GUIDE NAVIGATION</div>
 
-      <section class="study-section" id="api">
-        <h2>6. API Basics</h2>
-        <p>An API endpoint is a server URL that the website calls to perform an action or retrieve data.</p>
-        <div class="card searchable">
-          <h3>Typical request flow</h3>
-          <p><strong>Browser → API/PHP → MySQL → API response → Browser</strong></p>
-          <p>The browser sends a request. The server validates and processes it, may read or update the database, then returns a response.</p>
-        </div>
-        <div class="card searchable">
-          <h3>Common HTTP methods</h3>
-          <ul>
-            <li><code>GET</code> — retrieve information.</li>
-            <li><code>POST</code> — submit information or create a record.</li>
-            <li><code>PUT/PATCH</code> — update information.</li>
-            <li><code>DELETE</code> — remove information.</li>
-          </ul>
-        </div>
-      </section>
+            <nav class="nav-list" aria-label="Study guide navigation">
+                <a class="nav-link active" href="#home">
+                    <span>01</span> Overview
+                </a>
+                <a class="nav-link" href="#system-overview">
+                    <span>02</span> System Overview
+                </a>
+                <a class="nav-link" href="#technologies">
+                    <span>03</span> Technologies
+                </a>
+                <a class="nav-link" href="#modules">
+                    <span>04</span> System Modules
+                </a>
+                <a class="nav-link" href="#source-files">
+                    <span>05</span> Source Files
+                </a>
+                <a class="nav-link" href="#database">
+                    <span>06</span> Database Tables
+                </a>
+                <a class="nav-link" href="#registrar-workflow">
+                    <span>07</span> Registrar Workflow
+                </a>
+                <a class="nav-link" href="#payment-workflow">
+                    <span>08</span> Payment Verification
+                </a>
+                <a class="nav-link" href="#queue-workflow">
+                    <span>09</span> Queue Management
+                </a>
+                <a class="nav-link" href="#api-endpoints">
+                    <span>10</span> API Endpoints
+                </a>
+                <a class="nav-link" href="#programming-concepts">
+                    <span>11</span> Programming Concepts
+                </a>
+                <a class="nav-link" href="#rules">
+                    <span>12</span> Important Rules
+                </a>
+                <a class="nav-link" href="#remaining-work">
+                    <span>13</span> Remaining Work
+                </a>
+                <a class="nav-link" href="#review-questions">
+                    <span>14</span> Review Questions
+                </a>
+            </nav>
 
-      <section class="study-section" id="concepts">
-        <h2>7. Programming Concepts to Know</h2>
-        <div class="card searchable">
-          <h3>Frontend vs. backend</h3>
-          <p><strong>Frontend:</strong> what the user sees and interacts with. <strong>Backend:</strong> server-side processing, validation, and database operations.</p>
-        </div>
-        <div class="card searchable">
-          <h3>CRUD</h3>
-          <ul>
-            <li><strong>Create:</strong> add a record.</li>
-            <li><strong>Read:</strong> view or retrieve a record.</li>
-            <li><strong>Update:</strong> change a record.</li>
-            <li><strong>Delete:</strong> remove a record.</li>
-          </ul>
-        </div>
-        <div class="card searchable">
-          <h3>Validation and security</h3>
-          <ul>
-            <li>Validate user input on the server, not only in the browser.</li>
-            <li>Use prepared statements for database queries.</li>
-            <li>Store passwords securely using password hashing.</li>
-            <li>Check permissions before allowing staff-only actions.</li>
-            <li>Do not expose database passwords or private configuration details.</li>
-          </ul>
-        </div>
-        <div class="card searchable">
-          <h3>Quick review questions</h3>
-          <ol>
-            <li>What is the role of HTML, CSS, and JavaScript?</li>
-            <li>Why does QUEUESKI need a database?</li>
-            <li>What happens after a student submits a request?</li>
-            <li>What is the difference between Pending and Completed?</li>
-            <li>What does CRUD stand for?</li>
-          </ol>
-        </div>
-      </section>
+            <div class="sidebar-note">
+                <strong>Study tip</strong>
+                <p>
+                    Follow a feature from the frontend to its JavaScript,
+                    PHP API, and related database tables.
+                </p>
+            </div>
+        </aside>
 
-      <p id="noResults" class="no-results" hidden>No matching topics found. Try another keyword.</p>
-      <footer>QUEUESKI Study Reviewer · Focus on understanding each part and how the parts connect.</footer>
-    </main>
-  </div>
+        <!-- ===================================== -->
+        <!--             MAIN CONTENT              -->
+        <!-- ===================================== -->
+
+        <main class="main-content">
+
+            <!-- ===================================== -->
+            <!--                OVERVIEW               -->
+            <!-- ===================================== -->
+
+            <section class="hero searchable" id="home">
+                <div class="hero-copy">
+                    <div class="eyebrow">QUEUESKI PROJECT REFERENCE</div>
+
+                    <h1>
+                        QUEUESKI
+                        <span>System Study Guide</span>
+                    </h1>
+
+                    <p>
+                        A study reference for the student portal,
+                        Accounting transactions, Registrar document
+                        requests, payment verification, queue management,
+                        PHP APIs, and database relationships.
+                    </p>
+
+                    <div class="hero-tags">
+                        <span>HTML / CSS / JavaScript</span>
+                        <span>PHP</span>
+                        <span>MySQL</span>
+                    </div>
+                </div>
+
+                <div class="hero-art" aria-hidden="true">
+                    <div class="art-card">
+                        <span>QUEUE TICKET</span>
+                        <strong>#046</strong>
+                        <small>System Study Reference</small>
+                    </div>
+                </div>
+            </section>
+
+            <section class="home-intro searchable" id="home-intro">
+                <div class="section-header">
+                    <div>
+                        <div class="eyebrow">CONTENTS</div>
+                        <h2>Study Topics</h2>
+                    </div>
+                    <span class="pill">14 topics</span>
+                </div>
+
+                <div class="category-grid">
+                    <a href="#system-overview" class="category-card">
+                        <span class="category-icon">01</span>
+                        <strong>System Overview</strong>
+                        <p>Purpose, users, and system responsibilities.</p>
+                    </a>
+
+                    <a href="#technologies" class="category-card">
+                        <span class="category-icon">02</span>
+                        <strong>Technologies</strong>
+                        <p>Frontend, backend, and database technologies.</p>
+                    </a>
+
+                    <a href="#modules" class="category-card">
+                        <span class="category-icon">03</span>
+                        <strong>System Modules</strong>
+                        <p>Student, Admin, Accounting, and Registrar.</p>
+                    </a>
+
+                    <a href="#source-files" class="category-card">
+                        <span class="category-icon">04</span>
+                        <strong>Source Files</strong>
+                        <p>Project folders, scripts, and PHP APIs.</p>
+                    </a>
+
+                    <a href="#database" class="category-card">
+                        <span class="category-icon">05</span>
+                        <strong>Database Tables</strong>
+                        <p>Tables, fields, relationships, and constraints.</p>
+                    </a>
+
+                    <a href="#registrar-workflow" class="category-card">
+                        <span class="category-icon">06</span>
+                        <strong>Registrar Workflow</strong>
+                        <p>Document selection, charges, and requests.</p>
+                    </a>
+
+                    <a href="#payment-workflow" class="category-card">
+                        <span class="category-icon">07</span>
+                        <strong>Payment Verification</strong>
+                        <p>Payment submissions, allocations, and ledger.</p>
+                    </a>
+
+                    <a href="#queue-workflow" class="category-card">
+                        <span class="category-icon">08</span>
+                        <strong>Queue Management</strong>
+                        <p>Tickets, statuses, and office processing.</p>
+                    </a>
+
+                    <a href="#api-endpoints" class="category-card">
+                        <span class="category-icon">09</span>
+                        <strong>API Endpoints</strong>
+                        <p>PHP endpoints and frontend communication.</p>
+                    </a>
+
+                    <a href="#programming-concepts" class="category-card">
+                        <span class="category-icon">10</span>
+                        <strong>Programming Concepts</strong>
+                        <p>Sessions, SQL, validation, and transactions.</p>
+                    </a>
+
+                    <a href="#rules" class="category-card">
+                        <span class="category-icon">11</span>
+                        <strong>Important Rules</strong>
+                        <p>Data integrity, validation, and security.</p>
+                    </a>
+
+                    <a href="#remaining-work" class="category-card">
+                        <span class="category-icon">12</span>
+                        <strong>Remaining Work</strong>
+                        <p>Items to confirm and test in the actual code.</p>
+                    </a>
+
+                    <a href="#review-questions" class="category-card">
+                        <span class="category-icon">13</span>
+                        <strong>Review Questions</strong>
+                        <p>Questions for studying and system explanation.</p>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ===================================== -->
+            <!--                  SEARCH               -->
+            <!-- ===================================== -->
+
+            <div class="search-wrap" role="search">
+                <span class="search-symbol">⌕</span>
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search notes, files, tables, workflows..."
+                    aria-label="Search study notes"
+                >
+                <span class="search-hint">Search notes</span>
+            </div>
+
+            <p
+                class="search-result-count"
+                id="searchResultCount"
+                aria-live="polite"
+            ></p>
+
+            <!-- ===================================== -->
+            <!--            SYSTEM OVERVIEW            -->
+            <!-- ===================================== -->
+
+            <section class="section searchable" id="system-overview">
+                <div class="section-header">
+                    <div>
+                        <div class="eyebrow">01 · INTRODUCTION</div>
+                        <h2>
+                            <span class="section-number">01</span>
+                            System Overview
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>What is QUEUESKI?</h3>
+                    <p>
+                        QUEUESKI is a student portal and queue-management
+                        system intended to organize student service
+                        requests, Accounting transactions, Registrar
+                        document requests, payment submissions, and
+                        office queue tickets.
+                    </p>
+
+                    <h3>Primary objectives</h3>
+                    <ul class="list">
+                        <li>Organize student accounts and related information.</li>
+                        <li>Manage Accounting and Registrar service queues.</li>
+                        <li>Record charges and payments in an accounting ledger.</li>
+                        <li>Allow students to request Registrar documents.</li>
+                        <li>Support receipt submission and payment verification.</li>
+                        <li>Track the processing status of tickets and requests.</li>
+                    </ul>
+                </div>
+
+                <div class="grid four">
+                    <div class="card mini-card">
+                        <h3>Student</h3>
+                        <p class="muted">
+                            Uses student-facing pages and submits applicable
+                            service requests and payment information.
+                        </p>
+                    </div>
+
+                    <div class="card mini-card">
+                        <h3>Administrator</h3>
+                        <p class="muted">
+                            Handles authorized administrative operations,
+                            queue actions, and payment reviews.
+                        </p>
+                    </div>
+
+                    <div class="card mini-card">
+                        <h3>Accounting</h3>
+                        <p class="muted">
+                            Manages student charges, payments, and
+                            financial transaction records.
+                        </p>
+                    </div>
+
+                    <div class="card mini-card">
+                        <h3>Registrar</h3>
+                        <p class="muted">
+                            Manages document requests, individual
+                            request items, and processing statuses.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="callout">
+                    <strong>Important distinction</strong>
+                    <p>
+                        The database shows how information is stored.
+                        The actual PHP and JavaScript determine which
+                        operations are available and how the system
+                        behaves when users interact with it.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ===================================== -->
+            <!--               TECHNOLOGIES            -->
+            <!-- ===================================== -->
+
+            <section class="section searchable" id="technologies">
+                <div class="section-header">
+                    <div>
+                        <div class="eyebrow">02 · DEVELOPMENT</div>
+                        <h2>
+                            <span class="section-number">02</span>
+                            Technologies
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Technology</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>HTML</td>
+                                <td>Structures pages, forms, tables, and interface elements.</td>
+                            </tr>
+                            <tr>
+                                <td>CSS</td>
+                                <td>Controls layout, colors, spacing, and responsive design.</td>
+                            </tr>
+                            <tr>
+                                <td>JavaScript</td>
+                                <td>Handles interface interactions, calculations, and API requests.</td>
+                            </tr>
+                            <tr>
+                                <td>PHP</td>
+                                <td>Processes requests, validates data, and communicates with the database.</td>
+                            </tr>
+                            <tr>
+                                <td>MySQL / MariaDB</td>
+                                <td>Stores students, enrollments, queue tickets, transactions, and requests.</td>
+                            </tr>
+                            <tr>
+                                <td>PDO</td>
+                                <td>Provides PHP database access and prepared statements when used.</td>
+                            </tr>
+                            <tr>
+                                <td>XAMPP</td>
+                                <td>Provides a local development environment for PHP and MariaDB/MySQL.</td>
+                            </tr>
+                            <tr>
+                                <td>PHPMailer</td>
+                                <td>Can be used to send email messages when configured in the application.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout">
+                    <strong>Typical request flow</strong>
+                    <p class="flowline">
+                        <span>Frontend</span>
+                        <b>→</b>
+                        <span>PHP API</span>
+                        <b>→</b>
+                        <span>Database</span>
+                        <b>→</b>
+                        <span>JSON response</span>
+                    </p>
+                    <p>
+                        JavaScript sends a request to a PHP endpoint.
+                        PHP validates the input, accesses the database,
+                        and returns a response that the frontend can use.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ===================================== -->
+            <!--              SYSTEM MODULES           -->
+            <!-- ===================================== -->
+
+            <section class="section searchable" id="modules">
+                <div class="section-header">
+                    <div>
+                        <div class="eyebrow">03 · FEATURES</div>
+                        <h2>
+                            <span class="section-number">03</span>
+                            System Modules
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Administrator Module</h3>
+                    <ul class="list">
+                        <li>Provides administrative pages and operations.</li>
+                        <li>Supports queue actions and counter assignments where implemented.</li>
+                        <li>Uses backend endpoints to retrieve or update records.</li>
+                        <li>Administrative actions must be protected by server-side authorization.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Student Module</h3>
+                    <ul class="list">
+                        <li>Uses records from the <code>students</code> table.</li>
+                        <li>Can use enrollment records from <code>student_enrollments</code>.</li>
+                        <li>Provides access to permitted student-facing features.</li>
+                        <li>Student sessions must not grant administrator privileges.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Accounting Module</h3>
+                    <ul class="list">
+                        <li>Records charges and payments in <code>accounting_transactions</code>.</li>
+                        <li>Uses <code>payment_submissions</code> to store submitted payment information.</li>
+                        <li>Uses <code>payment_bill_allocations</code> to associate payments with charges.</li>
+                        <li>Supports payment verification and rejection workflows.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Registrar Module</h3>
+                    <ul class="list">
+                        <li>Loads available documents from <code>document_types</code>.</li>
+                        <li>Stores a parent request in <code>registrar_requests</code>.</li>
+                        <li>Stores selected documents in <code>registrar_request_items</code>.</li>
+                        <li>Associates document charges with Accounting transactions.</li>
+                        <li>Uses queue tickets to organize office processing.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Payment Receipt Module</h3>
+                    <ul class="list">
+                        <li>Stores submitted payment details and transaction references.</li>
+                        <li>Records the path of an uploaded receipt where applicable.</li>
+                        <li>Tracks pending, verified, and rejected payment statuses.</li>
+                        <li>Should restrict receipt access to authorized users.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ===================================== -->
+            <!--               SOURCE FILES             -->
+            <!-- ===================================== -->
+
+            <section id="source-files" class="section searchable">
+                <div class="section-header">
+                    <div>
+                        <div class="eyebrow">04 · CODE REFERENCE</div>
+                        <h2>
+                            <span class="section-number">04</span>
+                            QUEUESKI Source Files
+                        </h2>
+                        <p>
+                            An overview of the project's folders and files,
+                            including the backend APIs, frontend pages,
+                            database, and dependencies.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Project Folder Structure</h3>
+
+                    <div class="code-box">
+                        <div class="code-header">
+                            <span>Project directory</span>
+                            <button class="copy-button" type="button">Copy code</button>
+                        </div>
+
+                        <pre><code>queueski/
+│
+├── api/
+│   ├── account_settings.php
+│   ├── accounting.php
+│   ├── admin_student_details.php
+│   ├── admin_students.php
+│   ├── admin.php
+│   ├── document_types.php
+│   ├── login.php
+│   ├── payment_receipt.php
+│   ├── payment_review.php
+│   ├── payment_submissions.php
+│   ├── registrar_payment.php
+│   ├── registrar.php
+│   ├── session.php
+│   └── student_profile.php
+│
+├── components/
+│   ├── admin-settings.html
+│   └── student-navbar.html
+│
+├── config/
+│   ├── database.php
+│   └── mail.php
+│
+├── css/
+│   ├── account_settings.css
+│   ├── admin.css
+│   ├── login.css
+│   ├── nav.css
+│   ├── pages.css
+│   └── payment-verification.css
+│
+├── db/
+│   ├── queueski_db.sql
+│   └── Student Demo Credentials.pdf
+│
+├── images/
+│   ├── CampusBG.jpg
+│   ├── icplogo.jpg
+│   └── loginlogo.jpg
+│
+├── js/
+│   ├── account_settings.js
+│   ├── accounting.js
+│   ├── admin.js
+│   ├── common.js
+│   ├── home.js
+│   ├── login.js
+│   ├── payment-verification.js
+│   ├── profile.js
+│   └── registrar.js
+│
+├── pages/
+│   ├── account_settings.js
+│   ├── accounting.html
+│   ├── admin.html
+│   ├── home.html
+│   ├── login.html
+│   ├── profile.html
+│   └── registrar.html
+│
+├── private_uploads/
+│   └── payment_receipts/
+│       └── Uploaded receipt files...
+│
+└── vendor/</code></pre>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Folder and File Descriptions</h3>
+
+                    <div class="review-item">
+                        <h4>api/ — Backend API Files</h4>
+                        <p>
+                            Contains PHP scripts that handle login, sessions,
+                            student profiles, account settings, Accounting,
+                            Registrar functions, document types, and payment
+                            receipt submission and verification.
+                        </p>
+                    </div>
+
+                    <div class="review-item">
+                        <h4>components/ — Reusable Interface Components</h4>
+                        <p>
+                            Contains shared HTML components, such as the
+                            administrator settings menu and student
+                            navigation bar.
+                        </p>
+                    </div>
+
+                    <div class="review-item">
+                        <h4>config/ — Configuration Files</h4>
+                        <p>
+                            <code>database.php</code> contains database
+                            connection configuration, while
+                            <code>mail.php</code> contains email-related
+                            configuration.
+                        </p>
+                    </div>
+
+                    <div class="review-item">
+                        <h4>css/ — Stylesheets</h4>
+                        <p>
+                            Contains CSS files that control the appearance
+                            and layout of the login page, navigation,
+                            administrator interface, account settings,
+                            and payment verification.
+                        </p>
+                        <p>
+                            This study guide also references
+                            <code>css/style.css</code>. Add that file to
+                            this directory if you are keeping the
+                            reviewer stylesheet there.
+                        </p>
+                    </div>
+
+                    <div class="review-item">
+                        <h4>db/ — Database Resources</h4>
+                        <p>
+                            Contains the <code>queueski_db.sql</code>
+                            database script and the student demo
+                            credentials PDF. Keep demo credentials private
+                            and avoid using real passwords in shared
+                            materials.
+                        </p>
+                    </div>
+
+                    <div class="review-item">
+                        <h4>images/ — Image Assets</h4>
+                        <p>
+                            Stores the campus background and logo images
+                            used throughout the system.
+                        </p>
+                    </div>
+
+                    <div class="review-item">
+                        <h4>js/ — JavaScript Files</h4>
+                        <p>
+                            Contains frontend scripts for account settings,
+                            Accounting, administration, the home page,
+                            login, payment verification, student profiles,
+                            and Registrar functionality. The
+                            <code>common.js</code> file can hold shared
+                            JavaScript functionality.
+                        </p>
+                        <p>
+                            This reviewer references
+                            <code>js/script.js</code>. Add that file to
+                            this directory if you are using the supplied
+                            reviewer JavaScript separately from the
+                            application's existing scripts.
+                        </p>
+                    </div>
+
+                    <div class="review-item">
+                        <h4>pages/ — Application Pages</h4>
+                        <p>
+                            Contains the login, home, administrator,
+                            Accounting, Registrar, and profile pages.
+                            Verify that <code>account_settings.js</code>
+                            is intentional, since the other listed files
+                            in this folder are HTML.
+                        </p>
+                    </div>
+
+                    <div class="review-item">
+                        <h4>private_uploads/payment_receipts/ — Private Receipt Storage</h4>
+                        <p>
+                            Stores uploaded payment receipt files. The
+                            application should validate uploaded files and
+                            restrict access through server-side
+                            authorization rather than exposing receipts
+                            through public URLs.
+                        </p>
+                    </div>
+
+                    <div class="review-item">
+                        <h4>vendor/ — Composer Dependencies</h4>
+                        <p>
+                            Contains third-party PHP libraries installed
+                            through Composer, potentially including
+                            PHPMailer if it was installed through Composer
+                            in this project.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>How to Trace a Feature</h3>
+                    <ol class="list">
+                        <li>Find the HTML page containing the relevant form or button.</li>
+                        <li>Find the JavaScript event handler.</li>
+                        <li>Identify the PHP API endpoint called by the frontend.</li>
+                        <li>Inspect the PHP validation and database queries.</li>
+                        <li>Identify the related tables, foreign keys, and indexes.</li>
+                        <li>Test valid inputs, invalid inputs, and error handling.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- ===================================== -->
+            <!--              DATABASE TABLES          -->
+            <!-- ===================================== -->
+
+            <section class="section searchable" id="database">
+                <div class="section-header">
+                    <div>
+                        <div class="eyebrow">05 · DATA STORAGE</div>
+                        <h2>
+                            <span class="section-number">05</span>
+                            Database Tables
+                        </h2>
+                    </div>
+                </div>
+
+                <p>
+                    Database: <code>queueski_db</code>.
+                    The following tables are present in the supplied
+                    SQL dump.
+                </p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Table</th>
+                                <th>Purpose</th>
+                                <th>Important relationships</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>students</code></td>
+                                <td>Student accounts and profile details.</td>
+                                <td>Referenced by enrollments, queues, requests, and transactions.</td>
+                            </tr>
+                            <tr>
+                                <td><code>admins</code></td>
+                                <td>Administrator accounts, active state, and counter assignment.</td>
+                                <td>Referenced by reviewed payments and recorded transactions.</td>
+                            </tr>
+                            <tr>
+                                <td><code>student_enrollments</code></td>
+                                <td>Student grade level, school year, term, section, and strand.</td>
+                                <td>References a student.</td>
+                            </tr>
+                            <tr>
+                                <td><code>accounting_transactions</code></td>
+                                <td>Financial charges and payment ledger entries.</td>
+                                <td>References students and recording administrators.</td>
+                            </tr>
+                            <tr>
+                                <td><code>document_types</code></td>
+                                <td>Document names, fees, and active status.</td>
+                                <td>Referenced by Registrar request items.</td>
+                            </tr>
+                            <tr>
+                                <td><code>registrar_requests</code></td>
+                                <td>Parent records for student document requests.</td>
+                                <td>References the requesting student and handling administrator.</td>
+                            </tr>
+                            <tr>
+                                <td><code>registrar_request_items</code></td>
+                                <td>Individual documents selected within a request.</td>
+                                <td>References a parent request, document type, and charge.</td>
+                            </tr>
+                            <tr>
+                                <td><code>payment_submissions</code></td>
+                                <td>Payment method, amount, reference, receipt, and review status.</td>
+                                <td>References students, queue tickets, and ledger transactions.</td>
+                            </tr>
+                            <tr>
+                                <td><code>payment_bill_allocations</code></td>
+                                <td>Associates a payment submission with the charge it covers.</td>
+                                <td>References payment submissions and Accounting transactions.</td>
+                            </tr>
+                            <tr>
+                                <td><code>queue_tickets</code></td>
+                                <td>Office queue numbers, status, and assignment.</td>
+                                <td>References students and Registrar requests.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>students</h3>
+                    <p>
+                        Stores student identity and login information.
+                    </p>
+                    <ul class="list">
+                        <li><code>Student_ID</code> — primary key.</li>
+                        <li><code>Full_Name</code> — complete name.</li>
+                        <li><code>Email</code> — optional email address.</li>
+                        <li><code>Password_Hash</code> — stored password hash.</li>
+                        <li><code>Role</code> — student role.</li>
+                        <li><code>Last_Name</code>, <code>First_Name</code>, <code>Middle_Name</code> — name fields.</li>
+                        <li><code>Grade_Level</code> and <code>Section</code> — profile information.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>admins</h3>
+                    <ul class="list">
+                        <li><code>Admin_ID</code> — primary key.</li>
+                        <li><code>Full_Name</code> — administrator name.</li>
+                        <li><code>Password_Hash</code> — stored password hash.</li>
+                        <li><code>Role</code> — administrator role.</li>
+                        <li><code>Is_Super_Admin</code> — super-administrator flag.</li>
+                        <li><code>Is_Active</code> — account active flag.</li>
+                        <li><code>Counter_Number</code> — optional counter assignment.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>student_enrollments</h3>
+                    <p>
+                        Stores enrollment information by student,
+                        grade level, school year, term, section,
+                        strand, and enrollment date.
+                    </p>
+                    <p>
+                        A unique constraint prevents duplicate
+                        enrollment records for the same student,
+                        grade level, school year, and term.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>accounting_transactions</h3>
+                    <p>
+                        Serves as the ledger for charges and payments.
+                    </p>
+                    <ul class="list">
+                        <li><code>transaction_type</code> — <code>charge</code> or <code>payment</code>.</li>
+                        <li><code>amount</code> — transaction amount.</li>
+                        <li><code>description</code> — explanation of the transaction.</li>
+                        <li><code>bill_category</code> — optional charge category.</li>
+                        <li><code>school_year</code> and <code>term</code> — academic context.</li>
+                        <li><code>transaction_date</code> — transaction timestamp.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>document_types</h3>
+                    <ul class="list">
+                        <li><code>id</code> — primary key.</li>
+                        <li><code>document_name</code> — unique document name.</li>
+                        <li><code>fee</code> — configured fee per unit.</li>
+                        <li><code>is_active</code> — whether the document is available.</li>
+                        <li><code>created_at</code> and <code>updated_at</code> — timestamps.</li>
+                    </ul>
+
+                    <p>Sample document types in the supplied dump:</p>
+                    <ul class="list">
+                        <li>Transcript of Records (TOR) — ₱250.</li>
+                        <li>Certificate of Grades (COG) — ₱150.</li>
+                        <li>Honorable Dismissal Certificate — ₱200.</li>
+                        <li>Enrollment Verification Certificate — ₱100.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>registrar_requests</h3>
+                    <p>
+                        Stores the overall request submitted by a student.
+                    </p>
+                    <ul class="list">
+                        <li><code>requester_id</code> — student who submitted the request.</li>
+                        <li><code>handled_by</code> — administrator handling the request.</li>
+                        <li><code>request_type</code> — request description.</li>
+                        <li><code>quantity</code> — parent-level quantity field.</li>
+                        <li><code>purpose</code> — reason for the request.</li>
+                        <li><code>status</code> — overall request status.</li>
+                        <li><code>completed_at</code> — completion timestamp, if set.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>registrar_request_items</h3>
+                    <p>
+                        Stores each individual document included in a
+                        parent Registrar request.
+                    </p>
+                    <ul class="list">
+                        <li><code>request_id</code> — parent request.</li>
+                        <li><code>document_type_id</code> — document catalog reference.</li>
+                        <li><code>document_name</code> — saved document name.</li>
+                        <li><code>quantity</code> — number of copies.</li>
+                        <li><code>unit_fee</code> — price per copy.</li>
+                        <li><code>total_fee</code> — item subtotal.</li>
+                        <li><code>charge_transaction_id</code> — related ledger charge.</li>
+                        <li><code>status</code> — item-specific processing state.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>payment_submissions</h3>
+                    <p>
+                        Stores submitted payment details before and
+                        after administrative review.
+                    </p>
+                    <ul class="list">
+                        <li><code>student_id</code> — submitting student.</li>
+                        <li><code>payment_method</code> — payment method.</li>
+                        <li><code>amount</code> — submitted payment amount.</li>
+                        <li><code>transaction_reference</code> — payment reference.</li>
+                        <li><code>payment_datetime</code> — date and time entered for payment.</li>
+                        <li><code>receipt_path</code> — saved receipt path.</li>
+                        <li><code>status</code> — pending, verified, or rejected.</li>
+                        <li><code>reviewed_by</code> and <code>reviewed_at</code> — review details.</li>
+                        <li><code>ledger_transaction_id</code> — related ledger payment, when present.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>payment_bill_allocations</h3>
+                    <p>
+                        Connects one payment submission to a specific
+                        Accounting charge and records the amount
+                        allocated to that charge.
+                    </p>
+                    <p>
+                        The unique constraint on
+                        <code>payment_submission_id</code> and
+                        <code>bill_transaction_id</code> prevents the
+                        same submission from having duplicate allocation
+                        rows for the same charge.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>queue_tickets</h3>
+                    <ul class="list">
+                        <li><code>office</code> — Accounting or Registrar.</li>
+                        <li><code>queue_number</code> — ticket number.</li>
+                        <li><code>request_id</code> — optional linked Registrar request.</li>
+                        <li><code>status</code> — waiting, preparing, serving, completed, or cancelled.</li>
+                        <li><code>started_at</code> and <code>completed_at</code> — service timestamps.</li>
+                        <li><code>skipped_at</code> — timestamp for a skipped ticket.</li>
+                        <li><code>assigned_admin_id</code> — assigned administrator.</li>
+                        <li><code>counter_number</code> — assigned counter.</li>
+                    </ul>
+                </div>
+
+                <div class="callout">
+                    <strong>Why store fee snapshots?</strong>
+                    <p>
+                        Saving <code>unit_fee</code> and
+                        <code>total_fee</code> in each request item
+                        preserves the price used when that request
+                        was submitted, even if the catalog fee
+                        changes later.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ===================================== -->
+            <!--             REGISTRAR FLOW            -->
+            <!-- ===================================== -->
+
+            <section class="section searchable" id="registrar-workflow">
+                <div class="section-header">
+                    <div>
+                        <div class="eyebrow">06 · REGISTRAR</div>
+                        <h2>
+                            <span class="section-number">06</span>
+                            Registrar Request Workflow
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>How a multi-document request works</h3>
+                    <ol class="list">
+                        <li>The frontend loads active document types.</li>
+                        <li>The student selects one or more document types.</li>
+                        <li>The student chooses the quantity for each document.</li>
+                        <li>The interface calculates item subtotals and the displayed total.</li>
+                        <li>The student provides a purpose and submits the request.</li>
+                        <li>The PHP backend validates the submitted document IDs and quantities.</li>
+                        <li>The backend retrieves the current fees from the database and recalculates the total.</li>
+                        <li>One parent record is stored in <code>registrar_requests</code>.</li>
+                        <li>Each selected document is stored in <code>registrar_request_items</code>.</li>
+                        <li>Each document item can be associated with its own Accounting charge.</li>
+                        <li>A queue ticket can be associated with the parent request.</li>
+                        <li>Payment and processing statuses determine the next permitted action.</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h3>Sample fee calculation</h3>
+                    <p class="muted">
+                        This example uses the fees found in the supplied SQL dump.
+                    </p>
+
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Document</th>
+                                    <th>Unit Fee</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Transcript of Records (TOR)</td>
+                                    <td>₱250.00</td>
+                                    <td>1</td>
+                                    <td>₱250.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Certificate of Grades (COG)</td>
+                                    <td>₱150.00</td>
+                                    <td>2</td>
+                                    <td>₱300.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Honorable Dismissal Certificate</td>
+                                    <td>₱200.00</td>
+                                    <td>1</td>
+                                    <td>₱200.00</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"><strong>Total</strong></td>
+                                    <td><strong>₱750.00</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Frontend element references</h3>
+                    <p>
+                        The following IDs are examples from the
+                        Registrar interface and should be checked
+                        against the actual HTML and JavaScript.
+                    </p>
+                    <ul class="list">
+                        <li><code>#docTypeSelect</code> — document selector.</li>
+                        <li><code>#addDocumentBtn</code> — adds a selected document.</li>
+                        <li><code>#selectedDocumentsList</code> — selected documents and quantities.</li>
+                        <li><code>#registrarTotalFee</code> — combined fee.</li>
+                        <li><code>#documentRequestForm</code> — request form.</li>
+                        <li><code>#docPurposeInput</code> — request purpose.</li>
+                        <li><code>#registrarRequestMessage</code> — submission feedback.</li>
+                        <li><code>#submitRegistrarRequestBtn</code> — submit action.</li>
+                        <li><code>#registrarLogsBody</code> — request history table body.</li>
+                    </ul>
+                </div>
+
+                <div class="callout">
+                    <strong>Server-side validation</strong>
+                    <p>
+                        JavaScript calculations improve usability but
+                        cannot be trusted as the final authority.
+                        PHP must validate submitted values and
+                        recalculate document fees using the database.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ===================================== -->
+            <!--             PAYMENT FLOW             -->
+            <!-- ===================================== -->
+
+            <section class="section searchable" id="payment-workflow">
+                <div class="section-header">
+                    <div>
+                        <div class="eyebrow">07 · ACCOUNTING</div>
+                        <h2>
+                            <span class="section-number">07</span>
+                            Payment Verification
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Payment review process</h3>
+                    <ol class="list">
+                        <li>A student submits payment information and the required receipt, where applicable.</li>
+                        <li>The submission is saved in <code>payment_submissions</code>.</li>
+                        <li>The payment begins with a review status such as <code>pending</code>.</li>
+                        <li>An authorized administrator reviews the submission.</li>
+                        <li>The backend validates the payment details and transaction reference.</li>
+                        <li>The backend validates the charges selected for payment.</li>
+                        <li>Payment allocations are recorded in <code>payment_bill_allocations</code>.</li>
+                        <li>When the payment is verified, the ledger is updated as appropriate.</li>
+                        <li>The payment submission receives a verified status and review details.</li>
+                        <li>Related Registrar items can be updated when their charges are covered.</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h3>Important payment checks</h3>
+                    <ul class="list">
+                        <li>Only authorized administrators can approve or reject submissions.</li>
+                        <li>Allocated charges must belong to the correct student.</li>
+                        <li>The amount allocated must not exceed the remaining balance of a charge.</li>
+                        <li>The same payment submission must not be verified twice.</li>
+                        <li>Payment methods and transaction references must be validated.</li>
+                        <li>Related ledger and status changes should use a database transaction.</li>
+                        <li>Receipt files should only be accessible to authorized users.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Payment-related statuses</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Table</th>
+                                    <th>Statuses or state</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>payment_submissions</code></td>
+                                    <td><code>pending</code>, <code>verified</code>, <code>rejected</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>registrar_request_items</code></td>
+                                    <td><code>awaiting_payment</code>, <code>payment_verified</code>, <code>processing</code>, <code>ready_for_release</code>, <code>completed</code>, <code>rejected</code>, <code>cancelled</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>accounting_transactions</code></td>
+                                    <td><code>charge</code> or <code>payment</code> transaction type</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="callout">
+                    <strong>Payment and Registrar are connected</strong>
+                    <p>
+                        A Registrar document item should only be treated
+                        as paid when the corresponding charge is covered
+                        by a verified payment. A payment submission
+                        being verified does not automatically mean
+                        every outstanding bill for that student is paid.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ===================================== -->
+            <!--              QUEUE FLOW              -->
+            <!-- ===================================== -->
+
+            <section class="section searchable" id="queue-workflow">
+                <div class="section-header">
+                    <div>
+                        <div class="eyebrow">08 · QUEUE OPERATIONS</div>
+                        <h2>
+                            <span class="section-number">08</span>
+                            Queue Management
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Queue ticket information</h3>
+                    <p>
+                        The <code>queue_tickets</code> table stores
+                        information for Accounting and Registrar queues.
+                    </p>
+                    <ul class="list">
+                        <li><code>id</code> — primary key.</li>
+                        <li><code>student_id</code> — associated student, if present.</li>
+                        <li><code>request_id</code> — associated Registrar request, if present.</li>
+                        <li><code>office</code> — <code>accounting</code> or <code>registrar</code>.</li>
+                        <li><code>queue_number</code> — queue number.</li>
+                        <li><code>school_year</code> and <code>term</code> — academic context.</li>
+                        <li><code>status</code> — current queue state.</li>
+                        <li><code>started_at</code> — time service started.</li>
+                        <li><code>completed_at</code> — time service completed.</li>
+                        <li><code>skipped_at</code> — time a ticket was skipped.</li>
+                        <li><code>assigned_admin_id</code> — assigned administrator.</li>
+                        <li><code>counter_number</code> — assigned service counter.</li>
+                    </ul>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Database status</th>
+                                <th>Meaning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>waiting</code></td>
+                                <td>Waiting to be served.</td>
+                            </tr>
+                            <tr>
+                                <td><code>preparing</code></td>
+                                <td>Preparation is in progress.</td>
+                            </tr>
+                            <tr>
+                                <td><code>serving</code></td>
+                                <td>Currently being served.</td>
+                            </tr>
+                            <tr>
+                                <td><code>completed</code></td>
+                                <td>Service is completed.</td>
+                            </tr>
+                            <tr>
+                                <td><code>cancelled</code></td>
+                                <td>Ticket has been cancelled.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Database constraints</h3>
+                    <ul class="list">
+                        <li><code>(office, queue_number)</code> is unique, so a number cannot be duplicated within the same office.</li>
+                        <li><code>request_id</code> has a unique constraint, so the same non-null request cannot be linked to multiple tickets.</li>
+                        <li><code>assigned_admin_id</code> can identify the administrator assigned to a ticket.</li>
+                        <li>Foreign keys help preserve relationships between students, requests, and tickets.</li>
+                    </ul>
+                </div>
+
+                <div class="callout">
+                    <strong>Do not rely on the interface alone</strong>
+                    <p>
+                        Queue actions must be validated by the backend.
+                        The server should confirm the ticket's current
+                        status and the administrator's permissions
+                        before changing a ticket.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ===================================== -->
+            <!--               API ENDPOINTS           -->
+            <!-- ===================================== -->
+
+            <section class="section searchable" id="api-endpoints">
+                <div class="section-header">
+                    <div>
+                        <div class="eyebrow">09 · BACKEND</div>
+                        <h2>
+                            <span class="section-number">09</span>
+                            API Endpoints
+                        </h2>
+                    </div>
+                </div>
+
+                <p>
+                    These are the PHP endpoints listed in the
+                    supplied project structure.
+                </p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Endpoint</th>
+                                <th>Purpose based on filename</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>api/account_settings.php</code></td>
+                                <td>Account settings operations.</td>
+                            </tr>
+                            <tr>
+                                <td><code>api/accounting.php</code></td>
+                                <td>Accounting-related requests.</td>
+                            </tr>
+                            <tr>
+                                <td><code>api/admin_student_details.php</code></td>
+                                <td>Student details for administrative use.</td>
+                            </tr>
+                            <tr>
+                                <td><code>api/admin_students.php</code></td>
+                                <td>Administrative student data.</td>
+                            </tr>
+                            <tr>
+                                <td><code>api/admin.php</code></td>
+                                <td>Administrative and queue operations.</td>
+                            </tr>
+                            <tr>
+                                <td><code>api/document_types.php</code></td>
+                                <td>Document catalog and fees.</td>
+                            </tr>
+                            <tr>
+                                <td><code>api/login.php</code></td>
+                                <td>Login requests.</td>
+                            </tr>
+                            <tr>
+                                <td><code>api/payment_receipt.php</code></td>
+                                <td>Payment receipt-related operations.</td>
+                            </tr>
+                            <tr>
+                                <td><code>api/payment_review.php</code></td>
+                                <td>Payment review and verification.</td>
+                            </tr>
+                            <tr>
+                                <td><code>api/payment_submissions.php</code></td>
+                                <td>Payment submission data.</td>
+                            </tr>
+                            <tr>
+                                <td><code>api/registrar_payment.php</code></td>
+                                <td>Registrar-related payment operations.</td>
+                            </tr>
+                            <tr>
+                                <td><code>api/registrar.php</code></td>
+                                <td>Registrar requests and related operations.</td>
+                            </tr>
+                            <tr>
+                                <td><code>api/session.php</code></td>
+                                <td>Session-related operations.</td>
+                            </tr>
+                            <tr>
+                                <td><code>api/student_profile.php</code></td>
+                                <td>Student profile-related operations.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <details>
+                    <summary>Example: JavaScript fetch request</summary>
+                    <div class="details-content">
+                        <div class="code-box">
+                            <div class="code-header">
+                                <span>JavaScript</span>
+                                <button class="copy-button" type="button">Copy code</button>
+                            </div>
+                            <pre><code>async function loadDocumentTypes() {
+    try {
+        const response = await fetch("../api/document_types.php", {
+            credentials: "same-origin"
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error("Unable to load document types.");
+        }
+
+        console.log(data);
+    } catch (error) {
+        console.error(error.message);
+    }
+}</code></pre>
+                        </div>
+
+                        <p class="small muted">
+                            Example only. Adjust the path and response
+                            handling to match the actual page and API.
+                        </p>
+                    </div>
+                </details>
+
+                <div class="callout">
+                    <strong>API security</strong>
+                    <p>
+                        Protected endpoints should authenticate the
+                        current user, authorize the requested action,
+                        validate input, and return appropriate responses.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ===================================== -->
+            <!--          PROGRAMMING CONCEPTS         -->
+            <!-- ===================================== -->
+
+            <section class="section searchable" id="programming-concepts">
+                <div class="section-header">
+                    <div>
+                        <div class="eyebrow">10 · TECHNICAL REFERENCE</div>
+                        <h2>
+                            <span class="section-number">10</span>
+                            Programming Concepts
+                        </h2>
+                    </div>
+                </div>
+
+                <details open>
+                    <summary>Prepared statements</summary>
+                    <div class="details-content">
+                        <p>
+                            Prepared statements separate SQL commands
+                            from user-supplied values. They help prevent
+                            SQL injection when used correctly.
+                        </p>
+
+                        <div class="code-box">
+                            <div class="code-header">
+                                <span>PHP · PDO</span>
+                                <button class="copy-button" type="button">Copy code</button>
+                            </div>
+                            <pre><code>$stmt = $pdo->prepare(
+    "SELECT * FROM students WHERE Student_ID = ?"
+);
+
+$stmt->execute([$studentId]);
+
+$student = $stmt->fetch(PDO::FETCH_ASSOC);</code></pre>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Database transactions</summary>
+                    <div class="details-content">
+                        <p>
+                            A transaction groups related database
+                            operations so that they can be committed
+                            together or rolled back if an operation fails.
+                        </p>
+
+                        <div class="code-box">
+                            <div class="code-header">
+                                <span>PHP · PDO</span>
+                                <button class="copy-button" type="button">Copy code</button>
+                            </div>
+                            <pre><code>try {
+    $pdo->beginTransaction();
+
+    // Perform related database operations.
+
+    $pdo->commit();
+} catch (Throwable $e) {
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+
+    throw $e;
+}</code></pre>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Sessions and authorization</summary>
+                    <div class="details-content">
+                        <p>
+                            PHP sessions maintain information associated
+                            with a logged-in user. Authentication
+                            identifies the user; authorization determines
+                            what the user is allowed to do.
+                        </p>
+                        <p>
+                            A student session must not automatically
+                            grant administrative access.
+                        </p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>JSON responses</summary>
+                    <div class="details-content">
+                        <p>
+                            PHP APIs commonly return JSON so JavaScript
+                            can read structured results.
+                        </p>
+
+                        <div class="code-box">
+                            <div class="code-header">
+                                <span>PHP</span>
+                                <button class="copy-button" type="button">Copy code</button>
+                            </div>
+                            <pre><code>header("Content-Type: application/json");
+
+echo json_encode([
+    "success" => true,
+    "message" => "Request completed."
+]);</code></pre>
+                        </div>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Foreign keys and unique constraints</summary>
+                    <div class="details-content">
+                        <p>
+                            Foreign keys enforce relationships between
+                            records. Unique constraints prevent duplicate
+                            values or combinations where uniqueness is required.
+                            Indexes can improve query performance.
+                        </p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>Frontend and backend validation</summary>
+                    <div class="details-content">
+                        <ul class="list">
+                            <li>Frontend validation helps users enter valid data.</li>
+                            <li>Backend validation protects the application and its data.</li>
+                            <li>Database constraints provide another layer of integrity.</li>
+                        </ul>
+                        <p>
+                            Frontend validation alone is insufficient
+                            because users can bypass browser-side checks.
+                        </p>
+                    </div>
+                </details>
+
+                <details>
+                    <summary>HTTP status codes</summary>
+                    <div class="details-content">
+                        <ul class="list">
+                            <li><code>200</code> — successful request.</li>
+                            <li><code>400</code> — invalid request data.</li>
+                            <li><code>401</code> — authentication required.</li>
+                            <li><code>403</code> — action not permitted.</li>
+                            <li><code>404</code> — resource not found.</li>
+                            <li><code>500</code> — unexpected server error.</li>
+                        </ul>
+                    </div>
+                </details>
+            </section>
+
+            <!-- ===================================== -->
+            <!--             IMPORTANT RULES           -->
+            <!-- ===================================== -->
+
+            <section class="section searchable" id="rules">
+                <div class="section-header">
+                    <div>
+                        <div class="eyebrow">11 · DATA INTEGRITY</div>
+                        <h2>
+                            <span class="section-number">11</span>
+                            Important System Rules
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Registrar requests</h3>
+                    <ul class="list">
+                        <li>Accept only valid document types.</li>
+                        <li>Check that the selected document types are active.</li>
+                        <li>Validate quantities on the server.</li>
+                        <li>Recalculate all fees using the database catalog.</li>
+                        <li>Save each selected document as an individual request item.</li>
+                        <li>Use database transactions when creating related records.</li>
+                        <li>Check the actual code's rules for duplicate active requests.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Accounting and payments</h3>
+                    <ul class="list">
+                        <li>Validate payment amounts and charge IDs.</li>
+                        <li>Ensure the allocated charges belong to the correct student.</li>
+                        <li>Prevent duplicate payment processing.</li>
+                        <li>Prevent overpayment beyond the remaining balance.</li>
+                        <li>Use transactions for related ledger and status changes.</li>
+                        <li>Only update a Registrar item when its associated charge is covered.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Queue management</h3>
+                    <ul class="list">
+                        <li>Validate the current ticket status before changing it.</li>
+                        <li>Confirm the administrator has permission to perform the action.</li>
+                        <li>Prevent invalid status transitions.</li>
+                        <li>Use the database constraints to preserve queue relationships.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Security</h3>
+                    <ul class="list">
+                        <li>Verify sessions on protected endpoints.</li>
+                        <li>Check roles and permissions on the server.</li>
+                        <li>Use prepared statements for user-supplied SQL values.</li>
+                        <li>Keep passwords stored as secure hashes.</li>
+                        <li>Validate uploaded files and restrict receipt access.</li>
+                        <li>Never expose private credentials in shared study materials.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ===================================== -->
+            <!--              REMAINING WORK           -->
+            <!-- ===================================== -->
+
+            <section class="section searchable" id="remaining-work">
+                <div class="section-header">
+                    <div>
+                        <div class="eyebrow">12 · VERIFICATION CHECKLIST</div>
+                        <h2>
+                            <span class="section-number">12</span>
+                            Remaining Work
+                        </h2>
+                        <p>
+                            Use this checklist to record what still needs
+                            to be checked in the actual project.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Project verification</h3>
+
+                    <label class="check-item">
+                        <input type="checkbox">
+                        Confirm the folder structure matches the current project.
+                    </label>
+
+                    <label class="check-item">
+                        <input type="checkbox">
+                        Confirm the correct stylesheet and JavaScript paths.
+                    </label>
+
+                    <label class="check-item">
+                        <input type="checkbox">
+                        Verify the Registrar document selection and quantity limits.
+                    </label>
+
+                    <label class="check-item">
+                        <input type="checkbox">
+                        Verify server-side fee calculation.
+                    </label>
+
+                    <label class="check-item">
+                        <input type="checkbox">
+                        Verify creation of the parent request and individual request items.
+                    </label>
+
+                    <label class="check-item">
+                        <input type="checkbox">
+                        Verify Accounting charges are associated with the correct request items.
+                    </label>
+
+                    <label class="check-item">
+                        <input type="checkbox">
+                        Verify payment allocations and remaining-balance checks.
+                    </label>
+
+                    <label class="check-item">
+                        <input type="checkbox">
+                        Verify payment approval and rejection behavior.
+                    </label>
+
+                    <label class="check-item">
+                        <input type="checkbox">
+                        Verify queue status changes and authorization.
+                    </label>
+
+                    <label class="check-item">
+                        <input type="checkbox">
+                        Verify private payment receipt access.
+                    </label>
+
+                    <label class="check-item">
+                        <input type="checkbox">
+                        Test error handling for invalid and incomplete submissions.
+                    </label>
+                </div>
+
+                <div class="callout">
+                    <strong>Note</strong>
+                    <p>
+                        These are verification tasks, not claims that
+                        the features are missing. Confirm each item
+                        against the current source code and tests.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ===================================== -->
+            <!--              REVIEW QUESTIONS         -->
+            <!-- ===================================== -->
+
+            <section class="section searchable" id="review-questions">
+                <div class="section-header">
+                    <div>
+                        <div class="eyebrow">13 · SELF-ASSESSMENT</div>
+                        <h2>
+                            <span class="section-number">13</span>
+                            Review Questions
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>System architecture</h3>
+
+                    <details>
+                        <summary>1. What is the role of HTML, CSS, JavaScript, PHP, and MySQL?</summary>
+                        <div class="details-content">
+                            <p>
+                                HTML structures the page, CSS styles it,
+                                JavaScript handles browser interactions,
+                                PHP processes server-side requests, and
+                                MySQL or MariaDB stores the data.
+                            </p>
+                        </div>
+                    </details>
+
+                    <details>
+                        <summary>2. What happens when the frontend calls a PHP API?</summary>
+                        <div class="details-content">
+                            <p>
+                                The frontend sends a request. PHP validates
+                                the request, performs the required operation,
+                                accesses the database when necessary, and
+                                returns a response to the frontend.
+                            </p>
+                        </div>
+                    </details>
+
+                    <details>
+                        <summary>3. Why should protected API endpoints check permissions?</summary>
+                        <div class="details-content">
+                            <p>
+                                Browser-side restrictions can be bypassed.
+                                The backend must verify that the current
+                                user is authorized to perform the requested action.
+                            </p>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="card">
+                    <h3>Database</h3>
+
+                    <details>
+                        <summary>4. What is the difference between a parent request and a request item?</summary>
+                        <div class="details-content">
+                            <p>
+                                <code>registrar_requests</code> stores the
+                                overall request. <code>registrar_request_items</code>
+                                stores the individual documents included
+                                in that request.
+                            </p>
+                        </div>
+                    </details>
+
+                    <details>
+                        <summary>5. Why are foreign keys important?</summary>
+                        <div class="details-content">
+                            <p>
+                                They help maintain valid relationships
+                                between records and prevent references
+                                to nonexistent related records.
+                            </p>
+                        </div>
+                    </details>
+
+                    <details>
+                        <summary>6. What is the purpose of payment_bill_allocations?</summary>
+                        <div class="details-content">
+                            <p>
+                                It records how much of a payment submission
+                                is allocated to a specific Accounting
+                                charge, allowing payments to be matched
+                                to the bills they cover.
+                            </p>
+                        </div>
+                    </details>
+
+                    <details>
+                        <summary>7. Why does a request item store unit_fee and total_fee?</summary>
+                        <div class="details-content">
+                            <p>
+                                The fields preserve the fee applied when
+                                the item was created and record the
+                                subtotal for its requested quantity.
+                            </p>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="card">
+                    <h3>System workflows</h3>
+
+                    <details>
+                        <summary>8. Why must the backend recalculate Registrar fees?</summary>
+                        <div class="details-content">
+                            <p>
+                                Values submitted by a browser can be
+                                changed. The server must use trusted
+                                database fees to calculate the amount
+                                that should be charged.
+                            </p>
+                        </div>
+                    </details>
+
+                    <details>
+                        <summary>9. Why should related database changes use a transaction?</summary>
+                        <div class="details-content">
+                            <p>
+                                A transaction helps prevent partial
+                                updates. If a required operation fails,
+                                the database changes can be rolled back.
+                            </p>
+                        </div>
+                    </details>
+
+                    <details>
+                        <summary>10. Why is a verified payment not proof that every bill is paid?</summary>
+                        <div class="details-content">
+                            <p>
+                                A payment may cover only specific charges.
+                                The application must inspect the saved
+                                allocations and the remaining balance
+                                of each bill.
+                            </p>
+                        </div>
+                    </details>
+
+                    <details>
+                        <summary>11. What is the purpose of queue ticket statuses?</summary>
+                        <div class="details-content">
+                            <p>
+                                They represent the current state of a
+                                ticket, such as waiting, preparing,
+                                serving, completed, or cancelled.
+                            </p>
+                        </div>
+                    </details>
+
+                    <details>
+                        <summary>12. How would you trace a feature when debugging?</summary>
+                        <div class="details-content">
+                            <p>
+                                Start with the page, find its JavaScript
+                                event handler, identify the PHP endpoint,
+                                inspect the database query, and test the
+                                result and error handling.
+                            </p>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- ===================================== -->
+            <!--                  FOOTER               -->
+            <!-- ===================================== -->
+
+            <footer class="footer">
+                <p><strong>QUEUESKI</strong> · System Study Guide</p>
+                <p>
+                    A reference for understanding the system's pages,
+                    backend endpoints, database, and workflows.
+                </p>
+                <p class="small">
+                    This is a static study guide. It does not connect
+                    to or modify the QUEUESKI database.
+                </p>
+            </footer>
+
+        </main>
+    </div>
+
+    <button
+        class="back-top"
+        id="backToTop"
+        title="Back to top"
+        aria-label="Back to top"
+        type="button"
+    >↑</button>
 </body>
 </html>
